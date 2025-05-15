@@ -1,9 +1,20 @@
 import threading
+import random
+import time
 
 NUMERO_FILOSOFOS = 5
 
 TIEMPO_PENSAR = 10
 TIEMPO_COMER = 10
+
+ROJO = "\033[1;31m"
+VERDE = "\033[1;32m"
+AZUL = "\033[1;34m"
+ROSADO = "\033[1;35m"
+AMARILLO = "\033[1;36m"
+ORIGINAL = "\033[0m"
+
+
 
 tenedores = []
 
@@ -19,24 +30,33 @@ class FILOSOFO(threading.Thread):
     nombre = ''
     tenedor_izquierdo=0
     tenedor_derecho=0
+    COLOR = ""
 
-    def __init__(self, id_filosofo, nombre_filosofo):
+    #metodo constructor
+    def __init__(self, id_filosofo, nombre_filosofo, color_filosofo):
+        threading.Thread.__init__(self)
+        self.COLOR = color_filosofo
         self.id_filosofo = id_filosofo
         self.nombre = nombre_filosofo
         self.tenedor_derecho = tenedores[id_filosofo]
         self.tenedor_izquierdo = tenedores[(id_filosofo+1)%NUMERO_FILOSOFOS]
 
+        
+
     def pensar(self):
-        pass
+        tiempo = random.random() * TIEMPO_PENSAR #NUMERO ALEATORIO ENTRE 1 Y TIEMPO_PENSAR
+        print(f"{self.COLOR}el filosofo {self.nombre} ({self.id_filosofo}) va a pensar durante {tiempo} segundos")
+        time.sleep(tiempo)
+        print(f"el filosofo {self.nombre} a terminado de pensar.{ORIGINAL}")        
 
     def comer(self):
+    
         pass
 
 
-primer_filosofo = FILOSOFO(0, "Platon")
-segundo_filosofo = FILOSOFO(1, "Socrates")
-tercer_filosofo = FILOSOFO(2, "Aristoteles")
-cuarto_filosofo = FILOSOFO(3, "Kanth")
-quinto_filosofo = FILOSOFO(4, "Confucio")
+primer_filosofo = FILOSOFO(0, "Platon", ROJO)
+segundo_filosofo = FILOSOFO(1, "Socrates", VERDE)
+primer_filosofo.pensar()
+segundo_filosofo.pensar()
 
 
